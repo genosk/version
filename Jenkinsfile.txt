@@ -1,0 +1,48 @@
+pipeline {
+    agent any
+
+    environment {
+        // Environment variables can be added here
+        MY_ENV_VAR = 'value'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout code from Git repository
+                git 'https://github.com/genosk/version.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Example of a build step (you can modify this based on your project)
+                echo 'Building the project...'
+                sh 'mvn clean install' // For a Maven project
+            }
+        }
+
+        stage('Test') {
+            steps {
+                // Example of running tests (modify for your project)
+                echo 'Running tests...'
+                sh 'mvn test' // For Maven projects
+            }
+        }
+    
+        stage('Deploy') {
+            steps {
+                // Example of deployment (you can customize this as per your project)
+                echo 'Deploying to server...'
+                sh './deploy.sh' // Example script for deployment
+            }
+        }
+    }
+
+    post {
+        always {
+            // Clean up, always run after the pipeline finishes
+            echo 'Cleaning up...'
+        }
+    }
+}
